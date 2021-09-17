@@ -1,0 +1,23 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-fuelstationvueapp-dev-153522-authRole",
+            "UnauthRoleArn": "arn:aws:iam::330503250835:role/amplify-fuelstationvueapp-dev-153522-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::330503250835:role/amplify-fuelstationvueapp-dev-153522-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "amplify-fuelstationvueapp-dev-153522-deployment",
+            "UnauthRoleName": "amplify-fuelstationvueapp-dev-153522-unauthRole",
+            "StackName": "amplify-fuelstationvueapp-dev-153522",
+            "StackId": "arn:aws:cloudformation:eu-west-1:330503250835:stack/amplify-fuelstationvueapp-dev-153522/c85c7b30-17bb-11ec-855b-0a378edef49d",
+            "AmplifyAppId": "d2lu3fvf6kot6i"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d2lu3fvf6kot6i",
+                    "type": "manual"
+                }
+            }
+        }
+    }
+}
