@@ -150,7 +150,14 @@
         const formData = new FormData();
         formData.append("json", JSON.stringify(self.dataMap)); 
         axios
-          .post("http://localhost:4500/download", formData)
+          .post("https://gcqn03coj3.execute-api.eu-west-1.amazonaws.com/dev/upload", formData,{
+
+              'Content-Type': 'multipart/form-data,',
+              'Access-Control-Allow-Credentials': 'true',
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+              'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'
+        })
           .then(res => {
             //alert(res);
             console.log(res);
@@ -184,8 +191,8 @@
           }
         }
         // console.log("Update: "+JSON.stringify(self.dataMap));
-        const formData = new FormData();
-        formData.append("json", JSON.stringify(self.dataMap)); 
+        //const formData = new FormData();
+        /* formData.append("json", JSON.stringify(self.dataMap)); 
         axios
           .post("http://localhost:4500/save", formData)
           .then(res => {
@@ -194,12 +201,12 @@
           })
           .catch(err => {
             console.log(err);
-          });
+          }); */
         
       },
       deleteStation(){
         const self = this;
-         const formData = new FormData(); 
+        // const formData = new FormData(); 
          const dateRes =[]
          for(var i=0;i<self.dataMap.length;i++){
            if(self.dataMap[i].id!=self.r_starion.id){
@@ -208,7 +215,15 @@
          }
          self.dataMap=dateRes;
          //console.log("Del: "+JSON.stringify(self.dataMap));
-         formData.append("json", JSON.stringify(self.dataMap));
+
+            map.getLayers().forEach(layer => {
+              if (layer && layer.get('id') === self.r_starion.id) {
+                map.removeLayer(layer);
+              }
+            });
+            this.$bvModal.hide('bv-modal-station');
+
+         /* formData.append("json", JSON.stringify(self.dataMap));
          axios
           .post("http://localhost:4500/save", formData)
           .then(res => {
@@ -223,19 +238,21 @@
           })
           .catch(err => {
             console.log(err);
-          });
+          }); */
       },
 
       saveNameStation(){
          const self = this;
-         const formData = new FormData();  
+         //const formData = new FormData();  
          //r_starion.name
          for(var i=0;i<self.dataMap.length;i++){
            if(self.dataMap[i].id==self.r_starion.id){
              self.dataMap[i].name=self.r_starion.name;
            }
          }
-         formData.append("json", JSON.stringify(self.dataMap));
+          this.isChangeNAbil = false;
+
+        /*  formData.append("json", JSON.stringify(self.dataMap));
         // sending date for save the changes
         axios
           .post("http://localhost:4500/save", formData)
@@ -246,12 +263,12 @@
           })
           .catch(err => {
             console.log(err);
-          });
+          }); */
       },
 
       saveStation(){
         const self = this;
-        const formData = new FormData();         
+        //const formData = new FormData();         
         console.log("map: "+self.dataMap); 
         self.dataMap.push({
           id:self.n_id,
@@ -262,8 +279,34 @@
           longitude:self.n_longitude
 
         }) 
-               
-        formData.append("json", JSON.stringify(self.dataMap));
+        //aggiunto point
+          const place=new Point(fromLonLat([self.n_longitude,self.n_latitude]));
+
+          const feat = (new Feature(place));
+          
+          const layer  = new VectorLayer({
+            id:self.n_id,
+            source: new VectorSource({
+              features: [feat],
+            }),
+            style: new Style({
+                image: new Circle({
+                radius: 5,
+                fill: new Fill({color: 'red'}),
+              }),
+            }),
+          });
+          map.addLayer(layer);          
+          self.station=self.dataMap;
+          self.n_id=null;
+          self.n_name=null;
+          self.n_city=null;
+          self.n_address=null;
+          self.n_latitude=null;
+          self.n_longitude=null;
+          self.$bvModal.hide('bv-modal-new-station');  
+          
+      /*   formData.append("json", JSON.stringify(self.dataMap));
       // sending date for save the changes
       axios
         .post("http://localhost:4500/save", formData)
@@ -298,7 +341,7 @@
         })
         .catch(err => {
           console.log(err);
-        });
+        }); */
       },
      
     

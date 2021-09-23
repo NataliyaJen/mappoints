@@ -34,19 +34,22 @@ export default {
     onUploadFile() {
       const formData = new FormData();
       formData.append("file", this.selectedFile);  // appending file
-
+      console.log("formData: "+formData.get('file')); 
      // sending file to the backend
       axios
-        .post("http://localhost:4500/upload", formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
+        .post("https://gcqn03coj3.execute-api.eu-west-1.amazonaws.com/dev/download", formData, {
+              'Content-Type': 'multipart/form-data,',
+              'Access-Control-Allow-Credentials': 'true',
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+              'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'
         }) 
         .then(res => {
+          console.log(res.data); 
           this.dataMap = res.data;
           this.isDataMapLoad = false; //change on true after
           this.$emit('CustomEventInputChanged', this.dataMap);
-          //console.log(res.data); 
+          console.log(res.data); 
         })
         .catch(err => {
           console.log(err);

@@ -1,0 +1,28 @@
+# serverless.yaml
+service: fuelstationnodeapp
+provider:
+  name: aws
+  memorySize: 256
+  region: eu-west-1
+  lambdaHashingVersion: 20201221
+  runtime: nodejs14.x
+
+plugins:
+  - serverless-apigw-binary
+custom:
+  apigwBinary:
+    types:
+      - 'multipart/form-data'
+
+functions:
+  express:
+    handler: lambda.handler
+    events:
+    - http:
+        method: ANY
+        path: /
+        cors: true
+    - http:
+        method: ANY 
+        path: '{proxy+}'
+        cors: true
